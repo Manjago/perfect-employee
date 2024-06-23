@@ -14,11 +14,14 @@ public class Main {
         final Path path = Paths.get(config.getFile());
         final Typer typer = new Typer(100, 500);
 
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                typer.typeLine(line);
+        while (!Thread.interrupted()) {
+            try (BufferedReader reader = Files.newBufferedReader(path)) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    typer.typeLine(line);
+                }
             }
+            typer.clean();
         }
     }
 }

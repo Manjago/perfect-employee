@@ -41,6 +41,17 @@ public class Typer {
         robot.delay(delay());
     }
 
+    public void clean() {
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_A);
+        robot.keyRelease(KeyEvent.VK_A);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.delay(delay());
+        robot.keyPress(KeyEvent.VK_DELETE);
+        robot.keyPress(KeyEvent.VK_DELETE);
+        robot.delay(delay());
+    }
+
     private void handleNonStandard(char c) {
         typeUnmappedChar(c);
     }
