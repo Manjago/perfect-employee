@@ -9,7 +9,9 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
 
@@ -18,6 +20,8 @@ public class Typer {
     private final int delayFrom;
     private final int delayTo;
     private final Random random;
+    private final String allowed = " \t\"";
+    private final Set<Character> ALLOWED = new HashSet<>();
 
     public Typer(int delayFrom,
             int delayTo) throws AWTException {
@@ -26,6 +30,9 @@ public class Typer {
         robot = new Robot();
         robot.setAutoWaitForIdle(true);
         random = new SecureRandom(seedFromLong(new Date().getTime()));
+        for (char c : allowed.toCharArray()) {
+            ALLOWED.add(c);
+        }
     }
 
     public void typeLine(@NotNull String line) {
@@ -96,7 +103,7 @@ public class Typer {
     }
 
     private boolean allowed(char c) {
-        if (c == ' ' || c == '\t') {
+        if (ALLOWED.contains(c)) {
             return true;
         }
         return c >= 'a' && c <= 'z';
