@@ -52,6 +52,10 @@ public class Typer {
         robot.delay(delay());
     }
 
+    public void delay(int ms) {
+        robot.delay(ms);
+    }
+
     private void handleNonStandard(char c) {
         typeUnmappedChar(c);
     }
@@ -92,6 +96,9 @@ public class Typer {
     }
 
     private boolean allowed(char c) {
+        if (c == ' ' || c == '\t') {
+            return true;
+        }
         return c >= 'a' && c <= 'z';
     }
 }
