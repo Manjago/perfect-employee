@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Set;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.VK_HOME;
 
 public class Typer {
     private final Robot robot;
@@ -45,6 +46,9 @@ public class Typer {
         }
         robot.keyPress(VK_ENTER);
         robot.keyRelease(VK_ENTER);
+        robot.delay(delay());
+        robot.keyPress(VK_HOME);
+        robot.keyRelease(VK_HOME);
         robot.delay(delay());
     }
 
