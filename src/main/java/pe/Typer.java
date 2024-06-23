@@ -1,35 +1,31 @@
 package pe;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.security.SecureRandom;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
-import static java.awt.event.KeyEvent.VK_HOME;
 
 public class Typer {
+    private final RandomSource randomSource;
     private final Robot robot;
     private final int delayFrom;
     private final int delayTo;
-    private final Random random;
     private final Set<Character> ALLOWED = new HashSet<>();
 
-    public Typer(int delayFrom,
+    public Typer(RandomSource randomSource,
+            int delayFrom,
             int delayTo) throws AWTException {
+        this.randomSource = randomSource;
         this.delayFrom = delayFrom;
         this.delayTo = delayTo;
         robot = new Robot();
         robot.setAutoWaitForIdle(true);
-        random = new SecureRandom(seedFromLong(new Date().getTime()));
         for (char c : " .[];0123456789\\/".toCharArray()) {
             ALLOWED.add(c);
         }
@@ -52,6 +48,7 @@ public class Typer {
     }
 
     public void clean() {
+        robot.delay(5000);
         robot.keyPress(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_A);
         robot.keyRelease(KeyEvent.VK_A);
@@ -83,7 +80,7 @@ public class Typer {
     }
 
     private int delay() {
-        return delayFrom + random.nextInt(delayTo - delayFrom);
+        return delayFrom + randomSource.nextInt(delayTo - delayFrom);
     }
 
     private void typeUnmappedChar(char c) {
@@ -96,13 +93,6 @@ public class Typer {
         robot.keyRelease(KeyEvent.VK_V);
         robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.delay(delay());
-    }
-
-    @Contract(value = "_ -> new", pure = true)
-    private byte @NotNull [] seedFromLong(long longValue) {
-        return new byte[]{(byte) longValue, (byte) (longValue >> 8), (byte) (longValue >> 16),
-                (byte) (longValue >> 24), (byte) (longValue >> 32), (byte) (longValue >> 40),
-                (byte) (longValue >> 48), (byte) (longValue >> 56)};
     }
 
     private boolean allowed(char c) {
