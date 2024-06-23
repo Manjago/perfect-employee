@@ -14,14 +14,16 @@ public class Main {
         final Path path = Paths.get(config.getFile());
         final Typer typer = new Typer(50, 100);
 
-        long total = 0;
+        long totalLines = 0;
+        long totalCharacters = 0;
         typer.delay(1000);
         while (!Thread.interrupted()) {
             try (BufferedReader reader = Files.newBufferedReader(path)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    total += typer.typeLine(line);
-                    System.out.printf("%nPrinted %,18d characters", total);
+                    totalCharacters += typer.typeLine(line);
+                    ++totalLines;
+                    System.out.printf("\rPrinted %,18d lines, %,18d characters", totalLines, totalCharacters);
                 }
             }
             //typer.clean();
