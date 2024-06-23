@@ -35,17 +35,20 @@ public class Typer {
         }
     }
 
-    public void typeLine(@NotNull String line) {
+    public long typeLine(@NotNull String line) {
+        long counter = 0;
         for (char c : line.toCharArray()) {
             if (allowed(c)) {
                 handleAllowed(c);
             } else {
                 handleNonStandard(c);
             }
+            ++counter;
         }
         robot.keyPress(VK_ENTER);
         robot.keyRelease(VK_ENTER);
         robot.delay(delay());
+        return counter;
     }
 
     public void clean() {
