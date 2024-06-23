@@ -30,7 +30,7 @@ public class Typer {
         robot = new Robot();
         robot.setAutoWaitForIdle(true);
         random = new SecureRandom(seedFromLong(new Date().getTime()));
-        for (char c : " \"".toCharArray()) {
+        for (char c : " .[];0123456789\\/{}".toCharArray()) {
             ALLOWED.add(c);
         }
     }
