@@ -10,13 +10,10 @@ import java.awt.event.KeyEvent;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
 
 public class Typer {
-    private static final Logger logger = Logger.getLogger("Typer");
     private final Robot robot;
     private final int delayFrom;
     private final int delayTo;
@@ -27,28 +24,37 @@ public class Typer {
         this.delayFrom = delayFrom;
         this.delayTo = delayTo;
         robot = new Robot();
-        //robot.setAutoDelay(300);
         robot.setAutoWaitForIdle(true);
         random = new SecureRandom(seedFromLong(new Date().getTime()));
     }
 
     public void typeLine(@NotNull String line) {
         for (char c : line.toCharArray()) {
-            int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
-            if (KeyEvent.CHAR_UNDEFINED == keyCode) {
-                logger.log(Level.INFO, () -> "Start unmapped " + c);
-                typeUnmappedChar(c);
-                logger.log(Level.INFO, () -> "Stop unmapped " + c);
-                continue;
+            if (allowed(c)) {
+                handleAllowed(c);
+            } else {
+                handleNonStandard(c);
             }
-            logger.log(Level.INFO, () -> "Mapped " + c + " to " + keyCode);
-            robot.keyPress(keyCode);
-            robot.keyRelease(keyCode);
-            robot.delay(delay());
         }
         robot.keyPress(VK_ENTER);
         robot.keyRelease(VK_ENTER);
         robot.delay(delay());
+    }
+
+    private void handleNonStandard(char c) {
+        typeUnmappedChar(c);
+    }
+
+    private void handleAllowed(char c) {
+        int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
+
+        if (KeyEvent.CHAR_UNDEFINED == keyCode) {
+            handleNonStandard(c);
+        } else {
+            robot.keyPress(keyCode);
+            robot.keyRelease(keyCode);
+            robot.delay(delay());
+        }
     }
 
     private int delay() {
@@ -57,7 +63,7 @@ public class Typer {
 
     private void typeUnmappedChar(char c) {
         final String text = String.valueOf(c);
-        StringSelection stringSelection = new StringSelection(text);
+        final StringSelection stringSelection = new StringSelection(text);
         final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, stringSelection);
         robot.keyPress(KeyEvent.VK_CONTROL);
@@ -72,5 +78,9 @@ public class Typer {
         return new byte[]{(byte) longValue, (byte) (longValue >> 8), (byte) (longValue >> 16),
                 (byte) (longValue >> 24), (byte) (longValue >> 32), (byte) (longValue >> 40),
                 (byte) (longValue >> 48), (byte) (longValue >> 56)};
+    }
+
+    private boolean allowed(char c) {
+        return c >= 'a' && c <= 'z';
     }
 }

@@ -8,12 +8,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
+
     public static void main(String[] args) throws IOException, AWTException {
         final Config config = new Config("src/main/java/pe/Main.java");
         final Path path = Paths.get(config.getFile());
-        final Typer typer = new Typer(500, 2000);
+        final Typer typer = new Typer(100, 500);
 
-        try(BufferedReader reader = Files.newBufferedReader(path)) {
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line;
             while ((line = reader.readLine()) != null) {
                 typer.typeLine(line);
