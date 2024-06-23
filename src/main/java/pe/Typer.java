@@ -21,7 +21,6 @@ public class Typer {
     private final int delayFrom;
     private final int delayTo;
     private final Random random;
-    private final String allowed = " \t\"";
     private final Set<Character> ALLOWED = new HashSet<>();
 
     public Typer(int delayFrom,
@@ -31,7 +30,7 @@ public class Typer {
         robot = new Robot();
         robot.setAutoWaitForIdle(true);
         random = new SecureRandom(seedFromLong(new Date().getTime()));
-        for (char c : allowed.toCharArray()) {
+        for (char c : " \"".toCharArray()) {
             ALLOWED.add(c);
         }
     }
@@ -46,9 +45,6 @@ public class Typer {
         }
         robot.keyPress(VK_ENTER);
         robot.keyRelease(VK_ENTER);
-        robot.delay(delay());
-        robot.keyPress(VK_HOME);
-        robot.keyRelease(VK_HOME);
         robot.delay(delay());
     }
 
