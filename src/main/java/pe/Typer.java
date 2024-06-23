@@ -42,7 +42,6 @@ public class Typer {
             }
             logger.log(Level.INFO, () -> "Mapped " + c + " to " + keyCode);
             robot.keyPress(keyCode);
-            robot.delay(delay());
             robot.keyRelease(keyCode);
             robot.delay(delay());
         }
@@ -58,11 +57,8 @@ public class Typer {
         final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, stringSelection);
         robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.delay(delay());
         robot.keyPress(KeyEvent.VK_V);
-        robot.delay(delay());
         robot.keyRelease(KeyEvent.VK_V);
-        robot.delay(delay());
         robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.delay(delay());
     }
