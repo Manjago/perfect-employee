@@ -14,6 +14,8 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.awt.event.KeyEvent.VK_ENTER;
+
 public class Typer {
     private static final Logger logger = Logger.getLogger("Typer");
     private final Robot robot;
@@ -26,7 +28,7 @@ public class Typer {
         this.delayFrom = delayFrom;
         this.delayTo = delayTo;
         robot = new Robot();
-        robot.setAutoDelay(300);
+        //robot.setAutoDelay(300);
         robot.setAutoWaitForIdle(true);
         random = new SecureRandom(seedFromLong(new Date().getTime()));
     }
@@ -45,6 +47,9 @@ public class Typer {
             robot.keyRelease(keyCode);
             robot.delay(delay());
         }
+        robot.keyPress(VK_ENTER);
+        robot.keyRelease(VK_ENTER);
+        robot.delay(delay());
     }
 
     private int delay() {
