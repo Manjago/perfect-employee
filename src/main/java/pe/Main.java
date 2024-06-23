@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException, AWTException {
         final Config config = new Config("src/main/java/pe/Main.java");
         final Path path = Paths.get(config.getFile());
-        final Typer typer = new Typer(100, 1000);
+        final Typer typer = new Typer(500, 2000);
 
         try(BufferedReader reader = Files.newBufferedReader(path)) {
             String line;

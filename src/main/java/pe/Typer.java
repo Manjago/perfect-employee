@@ -22,6 +22,7 @@ public class Typer {
         this.delayFrom = delayFrom;
         this.delayTo = delayTo;
         robot = new Robot();
+        robot.setAutoDelay(300);
         robot.setAutoWaitForIdle(true);
         random = new SecureRandom(seedFromLong(new Date().getTime()));
     }
@@ -49,9 +50,13 @@ public class Typer {
         StringSelection stringSelection = new StringSelection(text);
         final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, stringSelection);
+        robot.delay(delay());
         robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.delay(delay());
         robot.keyPress(KeyEvent.VK_V);
+        robot.delay(delay());
         robot.keyRelease(KeyEvent.VK_V);
+        robot.delay(delay());
         robot.keyRelease(KeyEvent.VK_CONTROL);
     }
 
