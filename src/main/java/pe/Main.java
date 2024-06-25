@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
-        run(false, 100, 1000);
+        run(false, 3000, 30000);
         //testRun(Paths.get("/home/ADMSK/kdtemnen/pe/ewallet-engine/ewallet-svfe-adapter/src/main/java/ru/bpc/ewallet/adapter/svfe/utils/Iso8583Utils.java"));
     }
 
