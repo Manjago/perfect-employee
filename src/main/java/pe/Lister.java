@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Lister {
     private final String root;
-    private final String suffix;
+    private final List<String> suffix;
 
     public Lister(String root,
-            String suffix) {
+            List<String> suffix) {
         this.root = root;
         this.suffix = suffix;
     }
@@ -34,7 +34,9 @@ public class Lister {
                 if (Files.isDirectory(entry)) {
                     listAllFiles(entry, allFiles);
                 } else {
-                    if (entry.getFileName().toString().endsWith(suffix)) {
+                    final String fileName = entry.getFileName().toString();
+                    final boolean matched = suffix.stream().anyMatch(fileName::endsWith);
+                    if (matched) {
                         allFiles.add(entry);
                     }
                 }

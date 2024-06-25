@@ -1,16 +1,18 @@
 package pe;
 
+import java.util.List;
+
 public class Config {
     private final String root;
-    private final String ext;
+    private final List<String> ext;
 
     public Config(String root,
-            String ext) {
+            List<String> ext) {
         this.root = root;
         this.ext = ext;
     }
 
-    public String getExt() {
+    public List<String> getExt() {
         return ext;
     }
 

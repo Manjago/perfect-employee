@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -28,7 +29,7 @@ public class Main {
             System.out.println("My work data path " + rootFileName + " must be directory");
             System.exit(2);
         }
-        final Config config = new Config(rootFileName, ".java");
+        final Config config = new Config(rootFileName, Collections.singletonList(".java"));
         final CharToKey charToKey = new CharToKey();
         final Typer typer = new Typer(randomSource, charToKey, delayFrom, delayTo);
 
