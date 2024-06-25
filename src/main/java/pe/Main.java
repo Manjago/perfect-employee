@@ -12,19 +12,23 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
+    }
+
+    private static void run() throws AWTException, IOException {
         final RandomSource randomSource = new RandomSource();
         final String rootFileName = System.getProperty("user.home") + File.separator + "pe";
         final Path rootPath = Paths.get(rootFileName);
         if (!Files.exists(rootPath)) {
-            System.out.println("Where is my work data path " +rootFileName + "?");
+            System.out.println("Where is my work data path " + rootFileName + "?");
             System.exit(1);
         }
         if (!Files.isDirectory(rootPath)) {
-            System.out.println("My work data path " +rootFileName + " must be directory");
+            System.out.println("My work data path " + rootFileName + " must be directory");
             System.exit(2);
         }
         final Config config = new Config(rootFileName, ".java");
-        final Typer typer = new Typer(randomSource, 50, 100);
+        final CharToKey charToKey = new CharToKey();
+        final Typer typer = new Typer(randomSource, charToKey, 50, 100);
 
         long totalLines = 0;
         long totalCharacters = 0;
@@ -49,8 +53,9 @@ public class Main {
                     System.out.printf("\rCurrent %,18d lines, %,18d characters", totalLines, totalCharacters);
                 }
             }
-            typer.clean();
+            //typer.clean();
             System.out.printf("\rPrinted %,18d lines, %,18d characters%n", totalLines, totalCharacters);
+            break;
         }
     }
 }
