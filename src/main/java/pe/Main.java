@@ -49,8 +49,10 @@ public class Main {
 
             try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
                 String line;
+                int lineNum = 0;
                 while ((line = reader.readLine()) != null) {
-                    totalCharacters += typer.typeLine(line);
+                    ++lineNum;
+                    totalCharacters += typer.typeLine(line, lineNum);
                     ++totalLines;
                     System.out.printf("\rCurrent %,18d lines, %,18d characters", totalLines, totalCharacters);
                 }
@@ -70,8 +72,10 @@ public class Main {
 
         try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
             String line;
+            int lineNum = 0;
             while ((line = reader.readLine()) != null) {
-                typer.typeLine(line);
+                ++lineNum;
+                typer.typeLine(line, lineNum);
             }
         }
     }

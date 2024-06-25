@@ -23,11 +23,15 @@ public class Typer {
         robot.setAutoWaitForIdle(true);
     }
 
-    public long typeLine(@NotNull String line) {
+    public long typeLine(@NotNull String line, int lineNum) {
         long counter = 0;
         for (char c : line.toCharArray()) {
             final IntList keys = charToKey.toKeys(c);
-            type(keys);
+            try {
+                type(keys);
+            } catch (BadKeyException e) {
+                System.out.println("Bad key: " + e + " for line '" + line + "' at " + lineNum + " for char " + c);
+            }
             ++counter;
         }
         robot.keyPress(VK_ENTER);
@@ -60,13 +64,33 @@ public class Typer {
         final IntStack release = new IntStack();
         for (int i = 0; i < keys.size(); i++) {
             final int vk = keys.get(i);
-            robot.keyPress(vk);
+            try {
+                robot.keyPress(vk);
+            } catch (IllegalArgumentException e) {
+                throw new BadKeyException(e, vk, keys);
+            }
             release.push(vk);
         }
         while (!release.isEmpty()) {
             final int keycode = release.pop();
             robot.keyRelease(keycode);
             delay();
+        }
+    }
+
+    public static class BadKeyException extends RuntimeException {
+        private final int keyCode;
+        private final IntList keys;
+
+        public BadKeyException(Throwable cause, int keyCode, IntList keys) {
+            super(cause);
+            this.keyCode = keyCode;
+            this.keys = keys;
+        }
+
+        @Override
+        public String toString() {
+            return "BadKeyException{" + "keyCode=" + keyCode + ", keys=" + keys + "} " + super.toString();
         }
     }
 }

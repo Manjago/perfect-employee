@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_0;
 import static java.awt.event.KeyEvent.VK_1;
 import static java.awt.event.KeyEvent.VK_2;
+import static java.awt.event.KeyEvent.VK_3;
+import static java.awt.event.KeyEvent.VK_4;
+import static java.awt.event.KeyEvent.VK_5;
 import static java.awt.event.KeyEvent.VK_8;
 import static java.awt.event.KeyEvent.VK_CLOSE_BRACKET;
 import static java.awt.event.KeyEvent.VK_OPEN_BRACKET;
@@ -53,7 +56,16 @@ public class CharToKey {
             case ')': return IntList.of(VK_SHIFT, VK_0);
             case '!': return IntList.of(VK_SHIFT, VK_1);
             case '@': return IntList.of(VK_SHIFT, VK_2);
+            case '#': return IntList.of(VK_SHIFT, VK_3);
+            case '$': return IntList.of(VK_SHIFT, VK_4);
+            case '%': return IntList.of(VK_SHIFT, VK_5);
             case '*': return IntList.of(VK_SHIFT, VK_8);
+            case '_': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar('-'));
+            case '"': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar('\''));
+            case ':': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar(';'));
+            case '+': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar('='));
+            case '>': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar('.'));
+            case '<': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar(','));
             default: return null;
         }
     }
