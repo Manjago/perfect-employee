@@ -4,6 +4,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.event.KeyEvent;
 
+import static java.awt.event.KeyEvent.VK_0;
+import static java.awt.event.KeyEvent.VK_1;
+import static java.awt.event.KeyEvent.VK_2;
 import static java.awt.event.KeyEvent.VK_8;
 import static java.awt.event.KeyEvent.VK_CLOSE_BRACKET;
 import static java.awt.event.KeyEvent.VK_OPEN_BRACKET;
@@ -47,6 +50,9 @@ public class CharToKey {
         switch (c) {
             case '{': return IntList.of(VK_SHIFT, VK_OPEN_BRACKET);
             case '}': return IntList.of(VK_SHIFT, VK_CLOSE_BRACKET, VK_SHIFT);
+            case ')': return IntList.of(VK_SHIFT, VK_0);
+            case '!': return IntList.of(VK_SHIFT, VK_1);
+            case '@': return IntList.of(VK_SHIFT, VK_2);
             case '*': return IntList.of(VK_SHIFT, VK_8);
             default: return null;
         }
