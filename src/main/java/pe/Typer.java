@@ -61,13 +61,11 @@ public class Typer {
         while (!keys.isEmpty()) {
             final int vk = keys.pop();
             robot.keyPress(vk);
-            System.out.println("key pressed: " + vk);
             release.push(vk);
         }
         while (!release.isEmpty()) {
             final int keycode = release.pop();
             robot.keyRelease(keycode);
-            System.out.println("key released: " + keycode);
             delay();
         }
     }

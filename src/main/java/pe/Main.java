@@ -12,6 +12,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
+        run();
     }
 
     private static void run() throws AWTException, IOException {
