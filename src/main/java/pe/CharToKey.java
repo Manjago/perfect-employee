@@ -12,9 +12,9 @@ import static java.awt.event.KeyEvent.VK_SLASH;
 
 public class CharToKey {
 
-    private final IntStack QUESTION = IntStack.of(VK_SLASH, VK_SHIFT);
+    private final IntList QUESTION = IntList.of(VK_SHIFT,VK_SLASH);
 
-    public IntStack toKeys(char c) {
+    public IntList toKeys(char c) {
         final Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
         if (block == Character.UnicodeBlock.BASIC_LATIN) {
             return latinChar(c);
@@ -25,9 +25,9 @@ public class CharToKey {
         }
     }
 
-    private IntStack latinChar(char c) {
+    private IntList latinChar(char c) {
 
-        final IntStack pretender = specialLatin(c);
+        final IntList pretender = specialLatin(c);
         if (pretender != null) {
             return pretender;
         }
@@ -37,27 +37,26 @@ public class CharToKey {
         if (KeyEvent.CHAR_UNDEFINED == keyCode) {
             return unmappedChar(c);
         } else if (Character.isUpperCase(c)) {
-            return IntStack.of(keyCode, VK_SHIFT);
+            return IntList.of(VK_SHIFT, keyCode);
         } else {
-            return IntStack.of(keyCode);
+            return IntList.of(keyCode);
         }
     }
 
-    private @Nullable IntStack specialLatin(char c) {
-
+    private @Nullable IntList specialLatin(char c) {
         switch (c) {
-            case '{': return IntStack.of(VK_OPEN_BRACKET, VK_SHIFT);
-            case '}': return IntStack.of(VK_CLOSE_BRACKET, VK_SHIFT);
-            case '*': return IntStack.of(VK_8, VK_SHIFT);
+            case '{': return IntList.of(VK_SHIFT, VK_OPEN_BRACKET);
+            case '}': return IntList.of(VK_SHIFT, VK_CLOSE_BRACKET, VK_SHIFT);
+            case '*': return IntList.of(VK_SHIFT, VK_8);
             default: return null;
         }
     }
 
-    private IntStack cyrillicChar(char c) {
+    private IntList cyrillicChar(char c) {
         return QUESTION; // temp
     }
 
-    private IntStack unmappedChar(char c) {
+    private IntList unmappedChar(char c) {
         return QUESTION;
     }
 }

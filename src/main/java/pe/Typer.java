@@ -26,7 +26,7 @@ public class Typer {
     public long typeLine(@NotNull String line) {
         long counter = 0;
         for (char c : line.toCharArray()) {
-            final IntStack keys = charToKey.toKeys(c);
+            final IntList keys = charToKey.toKeys(c);
             type(keys);
             ++counter;
         }
@@ -56,10 +56,10 @@ public class Typer {
         return delayFrom + randomSource.nextInt(delayTo - delayFrom);
     }
 
-    public void type(@NotNull IntStack keys) {
+    public void type(@NotNull IntList keys) {
         final IntStack release = new IntStack();
-        while (!keys.isEmpty()) {
-            final int vk = keys.pop();
+        for (int i = 0; i < keys.size(); i++) {
+            final int vk = keys.get(i);
             robot.keyPress(vk);
             release.push(vk);
         }
