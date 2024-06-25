@@ -12,11 +12,11 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
-        //run(true);
-        testRun(Paths.get("/home/ADMSK/kdtemnen/pe/ewallet-engine/bm-core/src/main/java/ru/bpc/core/service/transfer/TransferOnDemandExpiredCancellationSchedule.java"));
+        run(false, 100, 1000);
+        //testRun(Paths.get("/home/ADMSK/kdtemnen/pe/ewallet-engine/ewallet-svfe-adapter/src/main/java/ru/bpc/ewallet/adapter/svfe/utils/Iso8583Utils.java"));
     }
 
-    private static void run(boolean testMode) throws AWTException, IOException {
+    private static void run(boolean testMode, int delayFrom, int delayTo) throws AWTException, IOException {
         final RandomSource randomSource = new RandomSource();
         final String rootFileName = System.getProperty("user.home") + File.separator + "pe";
         final Path rootPath = Paths.get(rootFileName);
@@ -30,7 +30,7 @@ public class Main {
         }
         final Config config = new Config(rootFileName, ".java");
         final CharToKey charToKey = new CharToKey();
-        final Typer typer = new Typer(randomSource, charToKey, 50, 100);
+        final Typer typer = new Typer(randomSource, charToKey, delayFrom, delayTo);
 
         long totalLines = 0;
         long totalCharacters = 0;
@@ -64,6 +64,7 @@ public class Main {
                 typer.clean();
             }
         }
+        System.exit(4);
     }
 
     private static void testRun(Path currentPath) throws IOException, AWTException {
