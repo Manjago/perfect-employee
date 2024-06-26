@@ -19,4 +19,9 @@ public class Config {
     public String getRoot() {
         return root;
     }
+
+    @Override
+    public String toString() {
+        return "Config{" + "root='" + root + '\'' + ", ext=" + ext + '}';
+    }
 }

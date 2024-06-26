@@ -2,24 +2,25 @@ package pe;
 
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
-        run(false, 500, 5000);
+        final String configFileName = args.length > 0 ? args[0] : null;
+        final Config config = new ConfigLoader().loadConfig(configFileName);
+        run(config, false, 500, 5000);
         //testRun(Paths.get("/home/ADMSK/kdtemnen/pe/ewallet-engine/ewallet-svfe-adapter/src/main/java/ru/bpc/ewallet/adapter/svfe/utils/Iso8583Utils.java"));
     }
 
-    private static void run(boolean testMode, int delayFrom, int delayTo) throws AWTException, IOException {
+    private static void run(Config config, boolean testMode, int delayFrom, int delayTo) throws AWTException, IOException {
+        System.out.println("Use config " + config);
         final RandomSource randomSource = new RandomSource();
-        final String rootFileName = System.getProperty("user.home") + File.separator + "pe";
+        final String rootFileName = config.getRoot();
         final Path rootPath = Paths.get(rootFileName);
         if (!Files.exists(rootPath)) {
             System.out.println("Where is my work data path " + rootFileName + "?");
@@ -29,7 +30,6 @@ public class Main {
             System.out.println("My work data path " + rootFileName + " must be directory");
             System.exit(2);
         }
-        final Config config = new Config(rootFileName, Collections.singletonList(".java"));
         final CharToKey charToKey = new CharToKey();
         final Typer typer = new Typer(randomSource, charToKey, delayFrom, delayTo);
 
