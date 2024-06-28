@@ -2,18 +2,21 @@ package pe;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class IntList {
-    private final int[] list = new int[3];
+    private static final int DEPTH = 3;
+    private final int[] list = new int[DEPTH];
     private int index = 0;
 
     public static @NotNull IntList of(int @NotNull ... values) {
-        final IntList stack = new IntList();
+        final IntList list = new IntList();
         for (int value : values) {
-            stack.push(value);
+            list.push(value);
         }
-        return stack;
+        return list;
     }
 
     public int size() {
@@ -30,6 +33,15 @@ public class IntList {
 
     private void push(int value) {
         list[index++] = value;
+    }
+
+    public String serializable() {
+        final StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < index; ++i) {
+            sb.append(',');
+            sb.append(list[i]);
+        }
+        return sb.toString();
     }
 
     @Override

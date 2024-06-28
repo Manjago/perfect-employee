@@ -1,5 +1,7 @@
 package pe;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,13 +13,24 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
+        CharToKey c2k = new CharToKey();
+        for (int i = 0; i < 128; i++) {
+            final char c = (char) i;
+            if (!c2k.nonPrintable(c)) {
+                System.out.println(i + c2k.toKeys(c).serializable());
+            }
+        }
+        //run(args);
+        //testRun(Paths.get("src/test/resources/example.java"));
+    }
+
+    private static void run(String @NotNull [] args) throws IOException, AWTException {
         final String configFileName = args.length > 0 ? args[0] : null;
         final Config config = new ConfigLoader().loadConfig(configFileName);
         run(config, false, 500, 5000);
-        //testRun(Paths.get("/home/ADMSK/kdtemnen/pe/ewallet-engine/ewallet-svfe-adapter/src/main/java/ru/bpc/ewallet/adapter/svfe/utils/Iso8583Utils.java"));
     }
 
-    private static void run(Config config, boolean testMode, int delayFrom, int delayTo) throws AWTException, IOException {
+    private static void run(@NotNull Config config, boolean testMode, int delayFrom, int delayTo) throws AWTException, IOException {
         System.out.println("Use config " + config);
         final RandomSource randomSource = new RandomSource();
         final String rootFileName = config.getRoot();

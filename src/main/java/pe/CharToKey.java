@@ -22,8 +22,12 @@ import static java.awt.event.KeyEvent.VK_SLASH;
 public class CharToKey {
 
     private final IntList QUESTION = IntList.of(VK_SHIFT,VK_SLASH);
+    private final IntList EMPTY = IntList.of();
 
     public IntList toKeys(char c) {
+        if (nonPrintable(c)) {
+            return EMPTY;
+        }
         final Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
         if (block == Character.UnicodeBlock.BASIC_LATIN) {
             return latinChar(c);
@@ -32,6 +36,10 @@ public class CharToKey {
         } else {
             return unmappedChar(c);
         }
+    }
+
+    public boolean nonPrintable(char c) {
+        return c == 127 || c != 9 && c < 32;
     }
 
     private IntList latinChar(char c) {
@@ -55,7 +63,7 @@ public class CharToKey {
     private @Nullable IntList specialLatin(char c) {
         switch (c) {
             case '{': return IntList.of(VK_SHIFT, VK_OPEN_BRACKET);
-            case '}': return IntList.of(VK_SHIFT, VK_CLOSE_BRACKET, VK_SHIFT);
+            case '}': return IntList.of(VK_SHIFT, VK_CLOSE_BRACKET);
             case ')': return IntList.of(VK_SHIFT, VK_0);
             case '!': return IntList.of(VK_SHIFT, VK_1);
             case '@': return IntList.of(VK_SHIFT, VK_2);
@@ -74,6 +82,7 @@ public class CharToKey {
             case '<': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar(','));
             case '|': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar('\\'));
             case '?': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar('/'));
+            case '~': return IntList.of(VK_SHIFT, KeyEvent.getExtendedKeyCodeForChar('`'));
             default: return null;
         }
     }
