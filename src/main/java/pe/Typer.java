@@ -74,7 +74,7 @@ public class Typer {
         while (!release.isEmpty()) {
             final int keycode = release.pop();
             robot.keyRelease(keycode);
-            delay();
+            robot.delay(delay());
         }
     }
 
