@@ -2,9 +2,7 @@ package pe;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class IntList {
     private static final int DEPTH = 3;
@@ -15,6 +13,14 @@ public class IntList {
         final IntList list = new IntList();
         for (int value : values) {
             list.push(value);
+        }
+        return list;
+    }
+
+    public static @NotNull IntList of(String @NotNull [] from1Tokens) {
+        final IntList list = new IntList();
+        for (int i = 1; i < from1Tokens.length; i++) {
+           list.push(Integer.parseInt(from1Tokens[i]));
         }
         return list;
     }

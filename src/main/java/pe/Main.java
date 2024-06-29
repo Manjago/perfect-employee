@@ -13,6 +13,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
+/*
         CharToKey c2k = new CharToKey();
         for (int i = 0; i < 128; i++) {
             final char c = (char) i;
@@ -20,14 +21,15 @@ public class Main {
                 System.out.println(i + c2k.toKeys(c).serializable());
             }
         }
-        //run(args);
+*/
+        run(args);
         //testRun(Paths.get("src/test/resources/example.java"));
     }
 
     private static void run(String @NotNull [] args) throws IOException, AWTException {
         final String configFileName = args.length > 0 ? args[0] : null;
         final Config config = new ConfigLoader().loadConfig(configFileName);
-        run(config, false, 500, 5000);
+        run(config, false, 300, 1500);
     }
 
     private static void run(@NotNull Config config, boolean testMode, int delayFrom, int delayTo) throws AWTException, IOException {
