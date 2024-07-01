@@ -13,26 +13,16 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException, AWTException {
-/*
-        CharToKey c2k = new CharToKey();
-        for (int i = 0; i < 128; i++) {
-            final char c = (char) i;
-            if (!c2k.nonPrintable(c)) {
-                System.out.println(i + c2k.toKeys(c).serializable());
-            }
-        }
-*/
         run(args);
-        //testRun(Paths.get("src/test/resources/example.java"));
     }
 
     private static void run(String @NotNull [] args) throws IOException, AWTException {
         final String configFileName = args.length > 0 ? args[0] : null;
         final Config config = new ConfigLoader().loadConfig(configFileName);
-        run(config, false, 300, 1500);
+        run(config);
     }
 
-    private static void run(@NotNull Config config, boolean testMode, int delayFrom, int delayTo) throws AWTException, IOException {
+    private static void run(@NotNull Config config) throws AWTException, IOException {
         System.out.println("Use config " + config);
         final RandomSource randomSource = new RandomSource();
         final String rootFileName = config.getRoot();
@@ -46,7 +36,7 @@ public class Main {
             System.exit(2);
         }
         final CharToKey charToKey = new CharToKey();
-        final Typer typer = new Typer(randomSource, charToKey, delayFrom, delayTo);
+        final Typer typer = new Typer(randomSource, charToKey, config.getDelayFrom(), config.getDelayTo());
 
         long totalLines = 0;
         long totalCharacters = 0;
@@ -74,7 +64,7 @@ public class Main {
                 }
             }
             System.out.printf("\rPrinted %,18d lines, %,18d characters%n", totalLines, totalCharacters);
-            if (testMode) {
+            if (config.isTestMode()) {
                 break;
             } else {
                 typer.clean();
