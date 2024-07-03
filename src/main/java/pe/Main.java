@@ -44,14 +44,20 @@ public class Main {
         while (!Thread.interrupted()) {
 
             final Lister lister = new Lister(config.getRoot(), config.getExt());
-            final List<Path> paths = lister.allFiles();
-            if (paths.isEmpty()) {
+            final Lister.Job firstJob = new Lister.Job(-1);
+            lister.allFiles(firstJob);
+            if (firstJob.getCurrent() < 1) {
                 System.exit(3);
             }
+            final int index = randomSource.nextInt(firstJob.getCurrent() + 1) + 1;
+            final Lister.Job secondJob = new Lister.Job(index);
+            lister.allFiles(secondJob);
+            if (secondJob.getFoundedPath() == null) {
+                System.exit(5);
+            }
 
-            final int index = randomSource.nextInt(paths.size());
-            final Path currentPath = paths.get(index);
-            System.out.println(currentPath);
+            final Path currentPath = secondJob.getFoundedPath();
+            System.out.println("Founded " + firstJob.getCurrent() + " files, select file " + index + ":" + currentPath);
 
             try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
                 String line;
