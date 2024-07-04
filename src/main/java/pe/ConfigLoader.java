@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -33,17 +34,14 @@ public class ConfigLoader {
     private Properties enrichByAppProperties(@NotNull Properties defaultProperties,
             @NotNull String appConfigPath) throws IOException {
 
-        final InputStream inputStream;
-        try {
-            inputStream = Files.newInputStream(Paths.get(appConfigPath));
-        } catch (IOException ignored) {
+        try(final InputStream inputStream = Files.newInputStream(Paths.get(appConfigPath))) {
+            final Properties enrichedProps = new Properties(defaultProperties);
+            enrichedProps.load(inputStream);
+            return enrichedProps;
+        } catch (NoSuchFileException ignored) {
             System.out.println("File not found: " + appConfigPath + ", use defaults");
             return defaultProperties;
         }
-
-        final Properties enrichedProps = new Properties(defaultProperties);
-        enrichedProps.load(inputStream);
-        return enrichedProps;
     }
 
     @Contract("_ -> new")
