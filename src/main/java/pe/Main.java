@@ -39,7 +39,7 @@ public class Main {
 
         long totalLines = 0;
         long totalCharacters = 0;
-        typer.delay(1000);
+        typer.delay(config.getDelayInitial());
         while (!Thread.interrupted()) {
 
             final Lister lister = new Lister(config.getRoot(), config.getExt());
@@ -76,20 +76,6 @@ public class Main {
             }
         }
         System.exit(4);
-    }
-
-    private static void testRun(Path currentPath) throws IOException, AWTException {
-        final Typer typer = new Typer(new RandomSource(), new CharToKey(), 50, 100);
-        System.out.println(currentPath);
-
-        try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
-            String line;
-            int lineNum = 0;
-            while ((line = reader.readLine()) != null) {
-                ++lineNum;
-                typer.typeLine(line, lineNum);
-            }
-        }
     }
 
 }

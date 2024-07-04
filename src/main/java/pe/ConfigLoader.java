@@ -55,7 +55,9 @@ public class ConfigLoader {
         final List<String> ext = Arrays.stream(properties.getProperty("ext").split(",")).collect(Collectors.toList());
 
         return new Config(root, ext, Boolean.parseBoolean(properties.getProperty("testmode")),
-                Integer.parseInt(properties.getProperty("delay.from")), Integer.parseInt(properties.getProperty(
-                        "delay.to")));
+                Integer.parseInt(properties.getProperty("delay.from")),
+                Integer.parseInt(properties.getProperty("delay.to")),
+                Integer.parseInt(properties.getProperty("delay.initial"))
+                );
     }
 }
