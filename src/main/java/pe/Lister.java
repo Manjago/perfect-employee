@@ -9,11 +9,11 @@ import java.util.List;
 
 public class Lister {
     private final String root;
-    private final List<String> suffix;
+    private final List<String> suffixes;
 
-    public Lister(String root, List<String> suffix) {
+    public Lister(String root, List<String> suffixes) {
         this.root = root;
-        this.suffix = suffix;
+        this.suffixes = suffixes;
     }
 
     public void allFiles(Job job) throws IOException {
@@ -26,19 +26,19 @@ public class Lister {
             for (Path entry : stream) {
                 if (Files.isDirectory(entry)) {
                     listAllFiles(entry, job);
-                } else {
-                    final String fileName = entry.getFileName().toString();
-                    final boolean matched = suffix.stream().anyMatch(fileName::endsWith);
-                    if (matched) {
-                        job.inc();
-                        if (job.current == job.limit) {
-                            job.foundedPath = entry;
-                            return;
-                        }
+                } else if (matchesSuffix(entry.getFileName().toString())) {
+                    job.increment();
+                    if (job.isLimitReached()) {
+                        job.setFoundedPath(entry);
+                        return;
                     }
                 }
             }
         }
+    }
+
+    private boolean matchesSuffix(String fileName) {
+        return suffixes.stream().anyMatch(fileName::endsWith);
     }
 
     public static class Job {
@@ -50,12 +50,20 @@ public class Lister {
             this.limit = limit;
         }
 
-        private void inc() {
+        public void increment() {
             ++current;
+        }
+
+        private boolean isLimitReached() {
+            return current == limit;
         }
 
         public Path getFoundedPath() {
             return foundedPath;
+        }
+
+        private void setFoundedPath(Path path) {
+            this.foundedPath = path;
         }
 
         public int getCurrent() {
