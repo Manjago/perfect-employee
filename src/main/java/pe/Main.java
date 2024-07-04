@@ -55,7 +55,7 @@ public class Main {
         if (firstJob.getCurrent() < 1) {
             System.exit(3);
         }
-        final int index = randomSource.nextInt(firstJob.getCurrent() + 1) + 1;
+        final int index = randomSource.nextInt(firstJob.getCurrent()) + 1;
         final Lister.Job secondJob = new Lister.Job(index);
         lister.allFiles(secondJob);
         if (secondJob.getFoundedPath() == null) {
@@ -76,7 +76,7 @@ public class Main {
         if (config.isTestMode()) {
             return true;
         } else {
-            typer.clean();
+            typer.clean(config.getDelayClean());
         }
         return false;
     }

@@ -9,14 +9,26 @@ public class Config {
     private final int delayFrom;
     private final int delayTo;
     private final int delayInitial;
+    private final int delayClean;
 
-    public Config(String root, List<String> ext, boolean testMode, int delayFrom, int delayTo, int delayInitial) {
+    public Config(String root,
+            List<String> ext,
+            boolean testMode,
+            int delayFrom,
+            int delayTo,
+            int delayInitial,
+            int delayClean) {
         this.root = root;
         this.ext = ext;
         this.testMode = testMode;
         this.delayFrom = delayFrom;
         this.delayTo = delayTo;
         this.delayInitial = delayInitial;
+        this.delayClean = delayClean;
+    }
+
+    public int getDelayClean() {
+        return delayClean;
     }
 
     public int getDelayInitial() {
@@ -45,6 +57,6 @@ public class Config {
 
     @Override
     public String toString() {
-        return "Config{" + "root='" + root + '\'' + ", ext=" + ext + ", testMode=" + testMode + ", delayFrom=" + delayFrom + ", delayTo=" + delayTo + ", delayInitial=" + delayInitial + '}';
+        return "Config{" + "root='" + root + '\'' + ", ext=" + ext + ", testMode=" + testMode + ", delayFrom=" + delayFrom + ", delayTo=" + delayTo + ", delayInitial=" + delayInitial + ", delayClean=" + delayClean + '}';
     }
 }

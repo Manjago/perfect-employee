@@ -13,6 +13,7 @@ public class Typer {
     private final Robot robot;
     private final int delayFrom;
     private final int delayTo;
+    private final IntList SELECT_ALL = IntList.of(KeyEvent.VK_CONTROL, KeyEvent.VK_A);
 
     public Typer(RandomSource randomSource, CharToKey charToKey, int delayFrom, int delayTo) throws AWTException {
         this.randomSource = randomSource;
@@ -32,46 +33,47 @@ public class Typer {
                 System.out.println("Bad key: " + e + " for line '" + line + "' at " + lineNum + " for char " + c);
             }
         }
-        robot.keyPress(VK_ENTER);
-        robot.keyRelease(VK_ENTER);
-        robot.delay(delay());
+        singlePressKey(VK_ENTER);
     }
 
-    public void clean() {
-        robot.delay(5000);
-        robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_A);
-        robot.keyRelease(KeyEvent.VK_A);
-        robot.keyRelease(KeyEvent.VK_CONTROL);
-        robot.delay(delay());
-        robot.keyPress(KeyEvent.VK_DELETE);
-        robot.keyPress(KeyEvent.VK_DELETE);
-        robot.delay(delay());
+    public void clean(int delayClean) {
+        robot.delay(delayClean);
+        type(SELECT_ALL);
+        singlePressKey(KeyEvent.VK_DELETE);
+    }
+
+    private void singlePressKey(int keyCode) {
+        robot.keyPress(keyCode);
+        robot.keyRelease(keyCode);
+        robot.delay(getRandomDelay());
     }
 
     public void delay(int ms) {
         robot.delay(ms);
     }
 
-    private int delay() {
+    private int getRandomDelay() {
         return delayFrom + randomSource.nextInt(delayTo - delayFrom);
     }
 
     public void type(@NotNull IntList keys) {
         final IntStack release = new IntStack();
-        for (int i = 0; i < keys.size(); i++) {
-            final int vk = keys.get(i);
-            try {
+        int vk = -1;
+
+        try {
+            for (int i = 0; i < keys.size(); i++) {
+                vk = keys.get(i);
                 robot.keyPress(vk);
-            } catch (IllegalArgumentException e) {
-                throw new BadKeyException(e, vk, keys);
+                release.push(vk);
             }
-            release.push(vk);
-        }
-        while (!release.isEmpty()) {
-            final int keycode = release.pop();
-            robot.keyRelease(keycode);
-            robot.delay(delay());
+        } catch (IllegalArgumentException e) {
+            throw new BadKeyException(e, vk, keys);
+        } finally {
+            while (!release.isEmpty()) {
+                final int keycode = release.pop();
+                robot.keyRelease(keycode);
+                robot.delay(getRandomDelay());
+            }
         }
     }
 

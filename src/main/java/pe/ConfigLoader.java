@@ -56,7 +56,8 @@ public class ConfigLoader {
         return new Config(root, ext, Boolean.parseBoolean(properties.getProperty("test.mode")),
                 Integer.parseInt(properties.getProperty("delay.from")),
                 Integer.parseInt(properties.getProperty("delay.to")),
-                Integer.parseInt(properties.getProperty("delay.initial"))
+                Integer.parseInt(properties.getProperty("delay.initial")),
+                Integer.parseInt(properties.getProperty("delay.clean"))
                 );
     }
 }
