@@ -15,41 +15,39 @@ import static java.awt.event.KeyEvent.VK_SLASH;
 
 public class CharToKey {
 
-    private final static IntList QUESTION = IntList.of(VK_SHIFT, VK_SLASH);
-    private final static IntList EMPTY = IntList.of();
+    private static final IntList QUESTION = IntList.of(VK_SHIFT, VK_SLASH);
+    private static final IntList EMPTY = IntList.of();
     private final Map<Character, IntList> map = new HashMap<>();
 
     public CharToKey() throws IOException {
-        try (final @NotNull InputStream inputStream =
-                     Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("map.txt"))) {
-            try (final BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+        loadMapping();
+    }
+
+    private void loadMapping() throws IOException {
+        try (InputStream inputStream = Objects.requireNonNull(
+                getClass().getClassLoader().getResourceAsStream("map.txt"), "Resource map.txt not found")) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     final String[] tokens = line.split(",");
-                    final Character character = (char) Integer.parseInt(tokens[0]);
-                    final IntList commands = IntList.of(tokens);
-                    map.put(character, commands);
+                    if (tokens.length > 0) {
+                        final char character = (char) Integer.parseInt(tokens[0]);
+                        final IntList commands = IntList.of(tokens);
+                        map.put(character, commands);
+                    }
                 }
             }
         }
-
     }
 
     public IntList toKeys(char c) {
-        if (nonPrintable(c)) {
+        if (isNonPrintable(c)) {
             return EMPTY;
-        } else if (map.containsKey(c)) {
-            return map.get(c);
-        } else {
-            return unmappedChar();
         }
+        return map.getOrDefault(c, QUESTION);
     }
 
-    public boolean nonPrintable(char c) {
-        return c == 127 || c != 9 && c < 32;
-    }
-
-    private IntList unmappedChar() {
-        return QUESTION;
+    private boolean isNonPrintable(char c) {
+        return c == 127 || (c < 32 && c != 9);
     }
 }
