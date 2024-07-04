@@ -11,7 +11,8 @@ public class RandomSource {
     private final Random random;
 
     public RandomSource() {
-        random = new SecureRandom(seedFromLong(new Date().getTime()));
+        long seed = new Date().getTime();
+        random = new SecureRandom(longToBytes(seed));
     }
 
     public int nextInt(int bound) {
@@ -19,11 +20,11 @@ public class RandomSource {
     }
 
     @Contract(value = "_ -> new", pure = true)
-    private byte @NotNull [] seedFromLong(long longValue) {
-        return new byte[]{(byte) longValue, (byte) (longValue >> 8), (byte) (longValue >> 16),
-                (byte) (longValue >> 24), (byte) (longValue >> 32), (byte) (longValue >> 40),
-                (byte) (longValue >> 48), (byte) (longValue >> 56)};
+    private byte @NotNull [] longToBytes(long value) {
+        byte[] bytes = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            bytes[i] = (byte) (value >> (i * 8));
+        }
+        return bytes;
     }
-
-
 }

@@ -1,5 +1,7 @@
 package pe;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -37,7 +39,7 @@ public class Lister {
         }
     }
 
-    private boolean matchesSuffix(String fileName) {
+    private boolean matchesSuffix(@NotNull String fileName) {
         return suffixes.stream().anyMatch(fileName::endsWith);
     }
 
