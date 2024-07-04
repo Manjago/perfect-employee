@@ -2,9 +2,10 @@ package pe;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class IntList {
+public class IntList implements Serializable {
     private static final int DEPTH = 3;
     private final int[] list = new int[DEPTH];
     private int index = 0;
@@ -33,21 +34,8 @@ public class IntList {
         return list[i];
     }
 
-    public boolean isEmpty() {
-        return index == 0;
-    }
-
     private void push(int value) {
         list[index++] = value;
-    }
-
-    public String serializable() {
-        final StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < index; ++i) {
-            sb.append(',');
-            sb.append(list[i]);
-        }
-        return sb.toString();
     }
 
     @Override

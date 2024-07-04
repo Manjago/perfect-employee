@@ -15,8 +15,8 @@ import static java.awt.event.KeyEvent.VK_SLASH;
 
 public class CharToKey {
 
-    private final IntList QUESTION = IntList.of(VK_SHIFT, VK_SLASH);
-    private final IntList EMPTY = IntList.of();
+    private final static IntList QUESTION = IntList.of(VK_SHIFT, VK_SLASH);
+    private final static IntList EMPTY = IntList.of();
     private final Map<Character, IntList> map = new HashMap<>();
 
     public CharToKey() throws IOException {
@@ -41,7 +41,7 @@ public class CharToKey {
         } else if (map.containsKey(c)) {
             return map.get(c);
         } else {
-            return unmappedChar(c);
+            return unmappedChar();
         }
     }
 
@@ -49,7 +49,7 @@ public class CharToKey {
         return c == 127 || c != 9 && c < 32;
     }
 
-    private IntList unmappedChar(char c) {
+    private IntList unmappedChar() {
         return QUESTION;
     }
 }

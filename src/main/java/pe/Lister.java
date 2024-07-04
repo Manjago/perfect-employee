@@ -58,10 +58,6 @@ public class Lister {
             return foundedPath;
         }
 
-        public int getLimit() {
-            return limit;
-        }
-
         public int getCurrent() {
             return current;
         }
