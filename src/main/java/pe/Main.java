@@ -37,45 +37,48 @@ public class Main {
         final CharToKey charToKey = new CharToKey();
         final Typer typer = new Typer(randomSource, charToKey, config.getDelayFrom(), config.getDelayTo());
 
-        long totalLines = 0;
-        long totalCharacters = 0;
         typer.delay(config.getDelayInitial());
         while (!Thread.interrupted()) {
-
-            final Lister lister = new Lister(config.getRoot(), config.getExt());
-            final Lister.Job firstJob = new Lister.Job(-1);
-            lister.allFiles(firstJob);
-            if (firstJob.getCurrent() < 1) {
-                System.exit(3);
-            }
-            final int index = randomSource.nextInt(firstJob.getCurrent() + 1) + 1;
-            final Lister.Job secondJob = new Lister.Job(index);
-            lister.allFiles(secondJob);
-            if (secondJob.getFoundedPath() == null) {
-                System.exit(5);
-            }
-
-            final Path currentPath = secondJob.getFoundedPath();
-            System.out.println("Founded " + firstJob.getCurrent() + " files, select file " + index + ":" + currentPath);
-
-            try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
-                String line;
-                int lineNum = 0;
-                while ((line = reader.readLine()) != null) {
-                    ++lineNum;
-                    totalCharacters += typer.typeLine(line, lineNum);
-                    ++totalLines;
-                    System.out.printf("\rCurrent %,18d lines, %,18d characters", totalLines, totalCharacters);
-                }
-            }
-            System.out.printf("\rPrinted %,18d lines, %,18d characters%n", totalLines, totalCharacters);
-            if (config.isTestMode()) {
+            if (loopBody(config, randomSource, typer)) {
                 break;
-            } else {
-                typer.clean();
             }
         }
         System.exit(4);
+    }
+
+    private static boolean loopBody(@NotNull Config config,
+            RandomSource randomSource,
+            Typer typer) throws IOException {
+        final Lister lister = new Lister(config.getRoot(), config.getExt());
+        final Lister.Job firstJob = new Lister.Job(-1);
+        lister.allFiles(firstJob);
+        if (firstJob.getCurrent() < 1) {
+            System.exit(3);
+        }
+        final int index = randomSource.nextInt(firstJob.getCurrent() + 1) + 1;
+        final Lister.Job secondJob = new Lister.Job(index);
+        lister.allFiles(secondJob);
+        if (secondJob.getFoundedPath() == null) {
+            System.exit(5);
+        }
+
+        final Path currentPath = secondJob.getFoundedPath();
+        System.out.println("Founded " + firstJob.getCurrent() + " files, select file " + index + ":" + currentPath);
+
+        try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
+            String line;
+            int lineNum = 0;
+            while ((line = reader.readLine()) != null) {
+                ++lineNum;
+                typer.typeLine(line, lineNum);
+            }
+        }
+        if (config.isTestMode()) {
+            return true;
+        } else {
+            typer.clean();
+        }
+        return false;
     }
 
 }

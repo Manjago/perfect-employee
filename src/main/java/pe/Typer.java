@@ -23,8 +23,7 @@ public class Typer {
         robot.setAutoWaitForIdle(true);
     }
 
-    public long typeLine(@NotNull String line, int lineNum) {
-        long counter = 0;
+    public void typeLine(@NotNull String line, int lineNum) {
         for (char c : line.toCharArray()) {
             final IntList keys = charToKey.toKeys(c);
             try {
@@ -32,12 +31,10 @@ public class Typer {
             } catch (BadKeyException e) {
                 System.out.println("Bad key: " + e + " for line '" + line + "' at " + lineNum + " for char " + c);
             }
-            ++counter;
         }
         robot.keyPress(VK_ENTER);
         robot.keyRelease(VK_ENTER);
         robot.delay(delay());
-        return counter;
     }
 
     public void clean() {
