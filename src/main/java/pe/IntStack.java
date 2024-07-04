@@ -1,7 +1,5 @@
 package pe;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 
 public class IntStack {
@@ -22,6 +20,5 @@ public class IntStack {
 
     @Override
     public String toString() {
-        return "IntStack{" + "stack=" + Arrays.toString(stack) + ", index=" + index + '}';
-    }
-}
+        return "IntStack{" + "stack=" + Arrays.toString(Arrays.copyOf(stack, index)) + ", index=" + index + '}';
+    }}

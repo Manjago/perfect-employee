@@ -40,6 +40,6 @@ public class IntList implements Serializable {
 
     @Override
     public String toString() {
-        return "IntList{" + "list=" + Arrays.toString(list) + ", index=" + index + '}';
+        return "IntList{" + "list=" + Arrays.toString(Arrays.copyOf(list, index)) + ", index=" + index + '}';
     }
 }
