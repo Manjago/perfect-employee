@@ -21,7 +21,7 @@ The application has some default settings, you can override them in a customizat
 Example of startup with customization file
 
 ```shell
-java -jar -Xmx3m perfect-employee-1.6.0.jar pe.properties
+java -jar -Xmx3m perfect-employee-1.7.0.jar pe.properties
 ```
 
 #### Example of a pe.properties customization file
@@ -57,7 +57,7 @@ delay.clean=5000
 ### Запуск
 
 ```shell
-java -jar -Xmx3m perfect-employee-1.6.0.jar
+java -jar -Xmx3m perfect-employee-1.7.0.jar
 ```
 
 В пользовательской директории должна быть директория pe, в ней должны лежать исходники.
