@@ -1,4 +1,4 @@
-# Perfect Employer
+# Perfect Employee
 
 ## English
 
@@ -11,7 +11,7 @@ The application uses Java version 8+
 ### Startup
 
 ```shell
-java -jar -Xmx3m perfect-employee-1.7.1.jar
+java -jar -Xmx3m perfect-employee-1.7.2.jar
 ```
 
 There should be a pe directory in the user directory and the sources should be in it.
@@ -21,7 +21,7 @@ The application has some default settings, you can override them in a customizat
 Example of startup with customization file
 
 ```shell
-java -jar -Xmx3m perfect-employee-1.7.1.jar pe.properties
+java -jar -Xmx3m perfect-employee-1.7.2.jar pe.properties
 ```
 
 #### Example of a pe.properties customization file
@@ -57,7 +57,7 @@ delay.clean=5000
 ### Запуск
 
 ```shell
-java -jar -Xmx3m perfect-employee-1.7.1.jar
+java -jar -Xmx3m perfect-employee-1.7.2.jar
 ```
 
 В пользовательской директории должна быть директория pe, в ней должны лежать исходники.
@@ -67,7 +67,7 @@ java -jar -Xmx3m perfect-employee-1.7.1.jar
 Пример запуска с настроечным файлом
 
 ```shell
-java -jar -Xmx3m perfect-employee-1.7.1.jar pe.properties
+java -jar -Xmx3m perfect-employee-1.7.2.jar pe.properties
 ```
 
 #### Пример настроечного файла pe.properties
