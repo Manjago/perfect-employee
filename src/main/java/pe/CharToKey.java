@@ -22,30 +22,31 @@ public class CharToKey {
     }
 
     private void loadMapping() throws IOException {
-        try (InputStream inputStream = Objects.requireNonNull(
-                getClass().getClassLoader().getResourceAsStream("map.txt"), "Resource map.txt not found")) {
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    final String[] tokens = line.split(",");
-                    if (tokens.length > 0) {
-                        final char character = (char) Integer.parseInt(tokens[0]);
-                        final IntList commands = IntList.of(tokens);
-                        map.put(character, commands);
-                    }
+        try (final InputStream inputStream = Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
+                "map.txt"), "Resource map.txt not found"); final BufferedReader br =
+                new BufferedReader(new InputStreamReader(inputStream))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                final String[] tokens = line.split(",");
+                if (tokens.length > 0) {
+                    final char character = (char) Integer.parseInt(tokens[0]);
+                    final IntList commands = IntList.of(tokens);
+                    map.put(character, commands);
                 }
             }
         }
     }
 
-    public IntList toKeys(char c) {
+    public IntList toKeys(final char c) {
         if (isNonPrintable(c)) {
             return EMPTY;
         }
         return map.getOrDefault(c, QUESTION);
     }
 
-    private boolean isNonPrintable(char c) {
+    private boolean isNonPrintable(final char c) {
+        // ASCII 127 is DEL, and characters below 32 (except TAB) are control characters
         return c == 127 || (c < 32 && c != 9);
     }
 }
