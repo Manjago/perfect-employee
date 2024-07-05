@@ -74,7 +74,11 @@ public class Lister {
 
         @Override
         public String toString() {
-            return "Job{" + "limit=" + limit + ", current=" + current + ", foundedPath=" + foundedPath + '}';
+            return "Job{" +
+                    "limit=" + limit +
+                    ", current=" + current +
+                    ", foundedPath=" + foundedPath +
+                    '}';
         }
     }
 }
