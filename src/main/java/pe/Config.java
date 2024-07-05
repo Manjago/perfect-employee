@@ -52,6 +52,13 @@ public class Config {
 
     @Override
     public String toString() {
-        return "Config{" + "root='" + root + '\'' + ", ext=" + ext + ", delayFrom=" + delayFrom + ", delayTo=" + delayTo + ", delayInitial=" + delayInitial + ", delayClean=" + delayClean + '}';
+        return "Config{" +
+                "root='" + root + '\'' +
+                ", ext=" + ext +
+                ", delayFrom=" + delayFrom +
+                ", delayTo=" + delayTo +
+                ", delayInitial=" + delayInitial +
+                ", delayClean=" + delayClean +
+                '}';
     }
 }
