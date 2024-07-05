@@ -4,14 +4,14 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Random;
 
 public class RandomSource {
     private final Random random;
 
     public RandomSource() {
-        long seed = new Date().getTime();
+        long seed = Instant.now().toEpochMilli();
         random = new SecureRandom(longToBytes(seed));
     }
 
