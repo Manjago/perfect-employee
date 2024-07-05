@@ -20,12 +20,26 @@ public class Main {
         }
     }
 
+    /**
+     * Runs the application with the provided arguments.
+     *
+     * @param args the command line arguments
+     * @throws IOException  if an I/O error occurs
+     * @throws AWTException if an AWT error occurs
+     */
     private static void run(String @NotNull [] args) throws IOException, AWTException {
         final String configFileName = args.length > 0 ? args[0] : null;
         final Config config = new ConfigLoader().loadConfig(configFileName);
         run(config);
     }
 
+    /**
+     * Runs the application with the provided configuration.
+     *
+     * @param config the configuration
+     * @throws AWTException if an AWT error occurs
+     * @throws IOException  if an I/O error occurs
+     */
     private static void run(@NotNull Config config) throws AWTException, IOException {
         System.out.println("Use config " + config);
         final RandomSource randomSource = new RandomSource();
@@ -40,6 +54,11 @@ public class Main {
         System.exit(4);
     }
 
+    /**
+     * Verifies that the root path exists and is a directory.
+     *
+     * @param rootFileName the root path
+     */
     private static void verifyRootPath(String rootFileName) {
         final Path rootPath = Paths.get(rootFileName);
         if (!Files.exists(rootPath)) {
@@ -52,6 +71,14 @@ public class Main {
         }
     }
 
+    /**
+     * The main loop body of the application.
+     *
+     * @param config       the configuration
+     * @param randomSource the random source
+     * @param typer        the typer
+     * @throws IOException if an I/O error occurs
+     */
     private static void loopBody(@NotNull Config config,
             @NotNull RandomSource randomSource,
             @NotNull Typer typer) throws IOException {
@@ -60,6 +87,14 @@ public class Main {
         typer.clean(config.getDelayClean());
     }
 
+    /**
+     * Chooses the next file to process based on the configuration and random source.
+     *
+     * @param config       the configuration
+     * @param randomSource the random source
+     * @return the path of the next file to process
+     * @throws IOException if an I/O error occurs
+     */
     private static Path chooseNextFile(@NotNull Config config,
             @NotNull RandomSource randomSource) throws IOException {
         final Lister lister = new Lister(config.getRoot(), config.getExt());
@@ -80,6 +115,13 @@ public class Main {
         return currentPath;
     }
 
+    /**
+     * Processes the specified file by typing its content.
+     *
+     * @param typer       the typer
+     * @param currentPath the path of the file to process
+     * @throws IOException if an I/O error occurs
+     */
     private static void processFile(Typer typer, Path currentPath) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
             String line;
@@ -90,5 +132,4 @@ public class Main {
             }
         }
     }
-
 }

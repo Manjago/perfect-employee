@@ -1,17 +1,19 @@
 package pe;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Config {
-    private final String root;
-    private final List<String> ext;
+    private final @NotNull String root;
+    private final @NotNull List<String> ext;
     private final int delayFrom;
     private final int delayTo;
     private final int delayInitial;
     private final int delayClean;
 
-    public Config(String root,
-            List<String> ext,
+    public Config(@NotNull String root,
+            @NotNull List<String> ext,
             int delayFrom,
             int delayTo,
             int delayInitial,
@@ -40,16 +42,23 @@ public class Config {
         return delayTo;
     }
 
-    public List<String> getExt() {
+    public @NotNull List<String> getExt() {
         return ext;
     }
 
-    public String getRoot() {
+    public @NotNull String getRoot() {
         return root;
     }
 
     @Override
     public String toString() {
-        return "Config{" + "root='" + root + '\'' + ", ext=" + ext + ", delayFrom=" + delayFrom + ", delayTo=" + delayTo + ", delayInitial=" + delayInitial + ", delayClean=" + delayClean + '}';
+        return "Config{" +
+                "root='" + root + '\'' +
+                ", ext=" + ext +
+                ", delayFrom=" + delayFrom +
+                ", delayTo=" + delayTo +
+                ", delayInitial=" + delayInitial +
+                ", delayClean=" + delayClean +
+                '}';
     }
 }

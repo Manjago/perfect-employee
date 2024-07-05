@@ -10,6 +10,10 @@ public class IntList implements Serializable {
     private final int[] list = new int[DEPTH];
     private int index = 0;
 
+    private IntList() {
+        // Private constructor to prevent direct instantiation
+    }
+
     public static @NotNull IntList of(int @NotNull ... values) {
         final IntList list = new IntList();
         for (int value : values) {
@@ -18,10 +22,10 @@ public class IntList implements Serializable {
         return list;
     }
 
-    public static @NotNull IntList of(String @NotNull [] from1Tokens) {
+    public static @NotNull IntList of(String @NotNull [] fromTokens) {
         final IntList list = new IntList();
-        for (int i = 1; i < from1Tokens.length; i++) {
-           list.push(Integer.parseInt(from1Tokens[i]));
+        for (int i = 1; i < fromTokens.length; i++) {
+            list.push(Integer.parseInt(fromTokens[i]));
         }
         return list;
     }
@@ -40,6 +44,9 @@ public class IntList implements Serializable {
 
     @Override
     public String toString() {
-        return "IntList{" + "list=" + Arrays.toString(Arrays.copyOf(list, index)) + ", index=" + index + '}';
+        return "IntList{" +
+                "list=" + Arrays.toString(Arrays.copyOf(list, index)) +
+                ", index=" + index +
+                '}';
     }
 }

@@ -3,7 +3,8 @@ package pe;
 import java.util.Arrays;
 
 public class IntStack {
-    private final int[] stack = new int[3];
+    private static final int MAX_SIZE = 3;
+    private final int[] stack = new int[MAX_SIZE];
     private int index = 0;
 
     public boolean isEmpty() {
