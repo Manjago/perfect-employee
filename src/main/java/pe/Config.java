@@ -5,7 +5,6 @@ import java.util.List;
 public class Config {
     private final String root;
     private final List<String> ext;
-    private final boolean testMode;
     private final int delayFrom;
     private final int delayTo;
     private final int delayInitial;
@@ -13,14 +12,12 @@ public class Config {
 
     public Config(String root,
             List<String> ext,
-            boolean testMode,
             int delayFrom,
             int delayTo,
             int delayInitial,
             int delayClean) {
         this.root = root;
         this.ext = ext;
-        this.testMode = testMode;
         this.delayFrom = delayFrom;
         this.delayTo = delayTo;
         this.delayInitial = delayInitial;
@@ -33,10 +30,6 @@ public class Config {
 
     public int getDelayInitial() {
         return delayInitial;
-    }
-
-    public boolean isTestMode() {
-        return testMode;
     }
 
     public int getDelayFrom() {
@@ -57,6 +50,6 @@ public class Config {
 
     @Override
     public String toString() {
-        return "Config{" + "root='" + root + '\'' + ", ext=" + ext + ", testMode=" + testMode + ", delayFrom=" + delayFrom + ", delayTo=" + delayTo + ", delayInitial=" + delayInitial + ", delayClean=" + delayClean + '}';
+        return "Config{" + "root='" + root + '\'' + ", ext=" + ext + ", delayFrom=" + delayFrom + ", delayTo=" + delayTo + ", delayInitial=" + delayInitial + ", delayClean=" + delayClean + '}';
     }
 }

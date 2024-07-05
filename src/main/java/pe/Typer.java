@@ -13,7 +13,7 @@ public class Typer {
     private final Robot robot;
     private final int delayFrom;
     private final int delayTo;
-    private final IntList SELECT_ALL = IntList.of(KeyEvent.VK_CONTROL, KeyEvent.VK_A);
+    private static final IntList SELECT_ALL = IntList.of(KeyEvent.VK_CONTROL, KeyEvent.VK_A);
 
     public Typer(RandomSource randomSource, CharToKey charToKey, int delayFrom, int delayTo) throws AWTException {
         this.randomSource = randomSource;

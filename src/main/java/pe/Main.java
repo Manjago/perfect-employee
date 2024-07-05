@@ -11,8 +11,13 @@ import java.nio.file.Paths;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, AWTException {
-        run(args);
+    public static void main(String[] args) {
+        try {
+            run(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(6);
+        }
     }
 
     private static void run(String @NotNull [] args) throws IOException, AWTException {
@@ -24,7 +29,18 @@ public class Main {
     private static void run(@NotNull Config config) throws AWTException, IOException {
         System.out.println("Use config " + config);
         final RandomSource randomSource = new RandomSource();
-        final String rootFileName = config.getRoot();
+        verifyRootPath(config.getRoot());
+        final CharToKey charToKey = new CharToKey();
+        final Typer typer = new Typer(randomSource, charToKey, config.getDelayFrom(), config.getDelayTo());
+
+        typer.delay(config.getDelayInitial());
+        while (!Thread.interrupted()) {
+            loopBody(config, randomSource, typer);
+        }
+        System.exit(4);
+    }
+
+    private static void verifyRootPath(String rootFileName) {
         final Path rootPath = Paths.get(rootFileName);
         if (!Files.exists(rootPath)) {
             System.out.println("Where is my work data path " + rootFileName + "?");
@@ -34,21 +50,18 @@ public class Main {
             System.out.println("My work data path " + rootFileName + " must be directory");
             System.exit(2);
         }
-        final CharToKey charToKey = new CharToKey();
-        final Typer typer = new Typer(randomSource, charToKey, config.getDelayFrom(), config.getDelayTo());
-
-        typer.delay(config.getDelayInitial());
-        while (!Thread.interrupted()) {
-            if (loopBody(config, randomSource, typer)) {
-                break;
-            }
-        }
-        System.exit(4);
     }
 
-    private static boolean loopBody(@NotNull Config config,
-            RandomSource randomSource,
-            Typer typer) throws IOException {
+    private static void loopBody(@NotNull Config config,
+            @NotNull RandomSource randomSource,
+            @NotNull Typer typer) throws IOException {
+        final Path currentPath = chooseNextFile(config, randomSource);
+        processFile(typer, currentPath);
+        typer.clean(config.getDelayClean());
+    }
+
+    private static Path chooseNextFile(@NotNull Config config,
+            @NotNull RandomSource randomSource) throws IOException {
         final Lister lister = new Lister(config.getRoot(), config.getExt());
         final Lister.Job firstJob = new Lister.Job(-1);
         lister.allFiles(firstJob);
@@ -64,7 +77,10 @@ public class Main {
 
         final Path currentPath = secondJob.getFoundedPath();
         System.out.println("Founded " + firstJob.getCurrent() + " files, select file " + index + ":" + currentPath);
+        return currentPath;
+    }
 
+    private static void processFile(Typer typer, Path currentPath) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(currentPath)) {
             String line;
             int lineNum = 0;
@@ -73,12 +89,6 @@ public class Main {
                 typer.typeLine(line, lineNum);
             }
         }
-        if (config.isTestMode()) {
-            return true;
-        } else {
-            typer.clean(config.getDelayClean());
-        }
-        return false;
     }
 
 }
