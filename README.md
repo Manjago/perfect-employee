@@ -1,5 +1,35 @@
 # Perfect Employee
 
+![](doc/img.png)
+
+<!-- TOC -->
+* [Perfect Employee](#perfect-employee)
+  * [English documentation](#english-documentation)
+    * [Description](#description)
+    * [Requirements](#requirements)
+    * [Installation](#installation)
+    * [Startup](#startup)
+    * [Example of startup with a customization file](#example-of-startup-with-a-customization-file)
+    * [Example of a `pe.properties` customization file](#example-of-a-peproperties-customization-file)
+      * [Comments to `pe.proerties`](#comments-to-peproerties)
+  * [Usage Examples](#usage-examples)
+    * [Contributing](#contributing)
+    * [License](#license)
+    * [Contact](#contact)
+  * [Русская документация](#русская-документация)
+    * [Описание](#описание)
+    * [Требования](#требования)
+    * [Установка](#установка)
+    * [Запуск](#запуск)
+    * [Пример запуска с настроечным файлом](#пример-запуска-с-настроечным-файлом)
+    * [Пример настроечного файла `pe.properties`](#пример-настроечного-файла-peproperties)
+      * [Комментарии к `pe.properties`](#комментарии-к-peproperties)
+    * [Примеры использования](#примеры-использования)
+    * [Вклад в проект](#вклад-в-проект)
+    * [Лицензия](#лицензия)
+    * [Контакты](#контакты)
+<!-- TOC -->
+
 ## English documentation
 
 ### Description
